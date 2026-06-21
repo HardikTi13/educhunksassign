@@ -1,0 +1,239 @@
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --border-color: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --text-main: #334155;
+  --text-muted: #64748b;
+  --accent-color: #6366f1; /* Indigo */
+  --accent-hover: #4f46e5;
+  --accent-light: #e0e7ff;
+  --success-color: #10b981; /* Emerald green */
+  --sync-active-color: #f59e0b; /* Amber */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  height: 100vh;
+  overflow: hidden;
+  line-height: 1.6;
+}
+
+/* Editor Container */
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background-color: var(--bg-primary);
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  user-select: none;
+  gap: 12px;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--border-color);
+}
+
+/* Toolbar Buttons */
+.toolbar-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  outline: none;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-muted);
+}
+
+.toolbar-btn:hover {
+  background-color: #f1f5f9;
+  color: var(--text-main);
+  border-color: var(--border-color);
+}
+
+.toolbar-btn:active {
+  transform: scale(0.92);
+}
+
+.toolbar-btn.active {
+  background-color: var(--accent-light);
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.btn-icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* Sync Status Pill */
+.sync-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--success-color);
+  position: relative;
+}
+
+.status-dot::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: var(--success-color);
+  animation: pulse-dot 1.8s infinite ease-in-out;
+  opacity: 0.7;
+}
+
+.sync-status.syncing {
+  border-color: var(--sync-active-color);
+  color: var(--sync-active-color);
+}
+
+.sync-status.syncing .status-dot {
+  background-color: var(--sync-active-color);
+}
+
+.sync-status.syncing .status-dot::after {
+  background-color: var(--sync-active-color);
+}
+
+/* Editor Workspace */
+.editor-workspace {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  position: relative;
+  background-color: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-area {
+  flex: 1;
+  outline: none;
+  border: none;
+  font-size: 14px;
+  color: var(--text-main);
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+/* Placeholder CSS rule */
+.editor-area:empty::before {
+  content: attr(placeholder);
+  color: var(--text-muted);
+  font-style: italic;
+  cursor: text;
+  pointer-events: none;
+}
+
+/* Styling formatting tags inside text editable area */
+.editor-area strong, .editor-area b {
+  font-weight: 700;
+}
+
+.editor-area em, .editor-area i {
+  font-style: italic;
+}
+
+.editor-area strike, .editor-area s, .editor-area del {
+  text-decoration: line-through;
+}
+
+/* Remote Sync Alert Animation */
+.sync-flash {
+  animation: flash-border 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Scrollbars styling */
+.editor-workspace::-webkit-scrollbar {
+  width: 6px;
+}
+.editor-workspace::-webkit-scrollbar-track {
+  background: transparent;
+}
+.editor-workspace::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 3px;
+}
+.editor-workspace::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
+/* Keyframes */
+@keyframes pulse-dot {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes flash-border {
+  0% {
+    box-shadow: inset 0 0 0 2px rgba(99, 102, 241, 0.4);
+  }
+  100% {
+    box-shadow: inset 0 0 0 2px rgba(99, 102, 241, 0);
+  }
+}
